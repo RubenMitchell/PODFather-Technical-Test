@@ -9,7 +9,9 @@ function setupTableSorting() {
         header.addEventListener('click', () => {
             const tableBody = header.closest('table').querySelector('tbody');
             const rows = Array.from(tableBody.querySelectorAll('tr'));
-
+            headers.forEach(header => {
+                header.className = '';
+            });
             rows.sort((rowA, rowB) => {
                 const cellA = rowA.children[index].textContent.toLowerCase();  // case-insensitive comparison
                 const cellB = rowB.children[index].textContent.toLowerCase();
@@ -26,7 +28,15 @@ function setupTableSorting() {
             // Rearrange sorted rows in the table body
             rows.forEach(row => tableBody.appendChild(row));
             // Toggle sort direction for the next click
+            if (sortDirections[index] == 1) {
+                header.classList.add('asc');
+            }
+            else
+            {
+                header.classList.add('desc');
+            }
             sortDirections[index] *= -1;
+
         });
     });
 }
@@ -34,6 +44,13 @@ function setupTableSorting() {
 //Add tabe sorting listners when the page is loaded
 document.addEventListener("DOMContentLoaded", function() {
     setupTableSorting()
+    document.querySelectorAll('.filter').forEach(filter => {
+        let options = filter.querySelector('.options');
+        options.style.maxHeight = 'none'; // Temporarily remove max-height restriction
+        let height = options.scrollHeight; // measure the scrollHeight
+        options.style.setProperty('--max-height', height + 'px'); // Set the custom property
+        options.style.maxHeight = ''; // Reapply the original max-height
+    });
 });
 
 function postRequest(url, params) {
@@ -53,6 +70,36 @@ function postRequest(url, params) {
 document.querySelectorAll('.filter').forEach(filter => {
     //Fetch all options for current filter
     const options = filter.querySelectorAll('.option');
+    filter.querySelector('input').addEventListener('click', (event) => {
+        event.stopPropagation(); // Stop click propagation
+        filter.classList.toggle('opened');
+    });
+    
+    function update_placeholder(){
+        count = 0;
+        options.forEach((i) => {
+            if (i.dataset.state == 'selected') {
+                count += 1;
+            }
+        });
+        column_name = filter.dataset.column;
+        if (count > 0) {
+            filter.querySelector('input').placeholder = column_name+'s: '+count + ' Active';
+            filter.classList.add('active');
+        }
+        else {
+            filter.querySelector('input').placeholder = column_name+'s';
+            filter.classList.remove('active');
+        }
+    }
+
+    filter.querySelector('.clear_button').addEventListener('click', (event) => {
+        event.stopPropagation(); 
+        postRequest('/clear_filter', {column: filter.getAttribute('data-column')});
+        options.forEach((i) => {i.dataset.state = 'available';}); 
+        update_placeholder();
+    });
+
     //Loop through each option adding a click event listener
     options.forEach(option => {
         option.addEventListener('click', (event) => {
@@ -66,6 +113,7 @@ document.querySelectorAll('.filter').forEach(filter => {
                 postRequest('/remove_filter', {column: filter.getAttribute('data-column'), value: option.textContent});
                 option.setAttribute('data-state', 'available');
             }
+            update_placeholder();
         });
     });
 });

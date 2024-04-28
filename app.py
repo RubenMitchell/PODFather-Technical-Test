@@ -45,5 +45,12 @@ def remove_filter():
     session.modified = True
     return get_table()
 
+@app.route('/clear_filter', methods=['POST'])
+def clear_filter():
+    column = request.form.get('column')
+    session['filter_dict'][column] = []
+    session.modified = True
+    return get_table()
+
 if __name__ == '__main__':
     app.run(debug=True)

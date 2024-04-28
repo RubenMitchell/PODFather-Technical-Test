@@ -1,6 +1,214 @@
-.option{
-    background-color: blue;
+*{
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
 }
-.option:hover{
-    background-color: red;
+
+#table{
+    width: 100%;
+    margin-right: 2%;
+    border-radius: 0;
+}
+table{
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    position: relative;
+    text-align: center;
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+  
+table, th, td {
+    text-align: center; /* Centers text horizontally */
+    vertical-align: middle; /* Centers text vertically */
+}
+
+.asc::after, .desc::after{
+    position: relative;
+    right: 1%;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #4A4A4A;
+}
+
+.asc::after{
+    content: '   ▼';
+}
+
+.desc::after{
+    content: '   ▲';
+}
+
+
+/*Contains Table and Filters*/
+.content-wrapper {
+    display: flex;
+    justify-content: space-between;
+    padding: 3%;
+}
+
+/*Bubble in which all filters exist*/
+.filters{
+    width: 25%;
+    background-color: rgb(246, 246, 246);
+    border-radius: 1em;
+    padding-left: 1.5%;
+    padding-right: 1%;
+    align-self: start;
+    padding-bottom: 1%;
+}
+/*Heading of Filters*/
+.filters h2 {
+    text-align: center;
+    font-size: 2em; 
+    color: #4A4A4A; 
+    margin-bottom: 1em;
+    text-decoration: underline;
+}
+
+/*Input appearance*/
+.filters .filter input {
+    width: 100%;  /* Full width to fit the container */
+    padding: 1em 1em;  /* Comfortable padding */
+    margin: 0.3em 0;  /* Spacing between elements */
+    box-sizing: border-box;  /* Includes padding and border in the element's width */
+    border: 0.1em solid #ccc;  /* Subtle border */
+    border-radius: 1em;  /* Rounded corners */
+    background-color: #fff;  /* White background */
+    font-size: 16px;  /* Readable text size */
+    color: #333;  /* Dark color for text */
+    flex: 1;
+}
+
+/*Input appearnce when a filter is active*/
+.filters .filter.active input {
+    border: 0.1em solid #4ab63e;  /* Subtle border */
+}
+
+.filters .filter input:hover{
+    box-shadow:  0 5px 25px rgba(0, 34, 255, 0.1);  
+
+}
+
+
+.filters .filter .options {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    opacity: 0;  /* Start with hidden content */
+    max-height: 0;  /* Start collapsed */
+    overflow: hidden;  /* Prevents content from showing when height is 0 */
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 5px 4px rgba(96, 96, 96, 0.1);
+    border-radius: 1em;
+    visibility: hidden;
+    z-index: 100;
+    margin-right: 0.8em;
+    transition: opacity 0.5s ease-out, max-height 0.5s ease-out, visibility 0.5s 0s;  /* Transition both properties */
+}
+
+.filters .filter.opened .options {
+    opacity: 1;  /* Fade in */
+    max-height: var(--max-height);  /* Expand to fit content */
+    visibility: visible;
+    margin-bottom: 5%;
+   
+}
+    
+
+.filters .filter .option{
+    padding: 0.8em;
+    cursor: pointer;
+    color: #292d34;
+    transition: transform 0.2s ease-in-out;
+}
+
+/*Available filters in a list on hover*/
+.option[data-state="available"]:hover {
+    transform: scale(1.05) translateX(2%);
+    transition: all 0.2s ease-in-out;
+    background-color: #e3e3e3;
+}
+
+.option[data-state="selected"]:hover {
+    transform: scale(1.05) translateX(2%);
+    transition: all 0.2s ease-in-out;
+    text-decoration: line-through;
+}
+
+/*Selected filters in a list*/
+.filters .filter .option[data-state="selected"] {
+    background-color: rgb(77, 229, 141);
+}
+
+.input_box_wrapper{
+    position: relative;
+    margin-right: 3%;
+}
+
+.input_box_wrapper::before {
+    content: '';
+    pointer-events: none;
+    position: absolute;
+    border: solid rgb(149, 149, 149);
+    border-width: 0 0.2em 0.2em 0;
+    padding: 3%;
+    right: 8%;
+    z-index: 10;
+    top: 50%;
+    transform: translate(0, -50%) rotate(-45deg);
+    transition: transform 0.3s ease-in-out;
+}
+
+.filter.opened .input_box_wrapper::before{
+    transform: translate(0, -65%) rotate(45deg);
+}
+
+.clear_button {
+    height: 20%;
+    aspect-ratio: 1 / 1;
+    position: relative;
+    border-radius: 0.5em;
+    display: none;
+    flex: 0.2;
+    justify-content: center;
+}
+
+.filter.active .clear_button {
+    display: block;
+}
+
+.clear_button::before,
+.clear_button::after {
+    content: '';
+    position: absolute;
+    top: 10%;            /* Center the lines vertically */
+    left: 45%;            /* Center the lines horizontally */
+    width: 10%;           /* Line thickness */
+    height: 80%;  
+    border-radius: 9px;        /* Line length, adjust based on your preference */
+    background-color: #fb0000; /* Line color */
+}
+
+.clear_button::before {transform: rotate(45deg);}
+.clear_button::after {transform: rotate(-45deg);}
+
+.clear_button:hover {
+    background-color: #d0d0d0;
+    box-shadow: 0 10px 25px rgba(124, 130, 141, 0.2);
+    transition: all 0.1s ease;
+}
+
+.input_line_wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input_box_wrapper{
+    flex:1;
 }
