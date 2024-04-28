@@ -1,0 +1,6 @@
+.option{
+    background-color: blue;
+}
+.option:hover{
+    background-color: red;
+}

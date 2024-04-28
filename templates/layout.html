@@ -8,6 +8,19 @@
     <div id="table">
         {{ table_data|safe }}
     </div>
+    <div class="filters">
+        {% for column, entries in unique_entries.items() %}
+        <div class="filter" data-column="{{ column }}">
+            <input type="text" placeholder="{{ column }}s" readonly />
+            <ul class="options">
+                {% for entry in entries %}
+                <li class="option">{{ entry }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
     
