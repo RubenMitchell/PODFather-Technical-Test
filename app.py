@@ -37,6 +37,13 @@ def add_filter():
     session.modified = True
     return get_table()
 
+@app.route('/remove_filter', methods=['POST'])
+def remove_filter():
+    column = request.form.get('column')
+    value = request.form.get('value')
+    session['filter_dict'][column].remove(value)
+    session.modified = True
+    return get_table()
 
 if __name__ == '__main__':
     app.run(debug=True)

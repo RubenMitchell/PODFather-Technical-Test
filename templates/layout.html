@@ -14,7 +14,7 @@
             <input type="text" placeholder="{{ column }}s" readonly />
             <ul class="options">
                 {% for entry in entries %}
-                <li class="option">{{ entry }}</li>
+                <li class="option" data-state="available">{{ entry }}</li>
                 {% endfor %}
             </ul>
         </div>

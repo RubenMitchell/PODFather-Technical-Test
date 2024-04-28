@@ -5,9 +5,7 @@ function postRequest(url, params) {
         body: new URLSearchParams(params).toString()
     })
     .then(response => response.text())
-    .then(html => {
-        document.getElementById('table').innerHTML = html;
-    })
+    .then(html => {document.getElementById('table').innerHTML = html;})
     .catch(error => console.error('Error:', error));
 }
 
@@ -17,8 +15,14 @@ document.querySelectorAll('.filter').forEach(filter => {
     options.forEach(option => {
         option.addEventListener('click', (event) => {
             event.stopPropagation(); // Stop click propagation
-            postRequest('/add_filter', {column: filter.getAttribute('data-column'), value: option.textContent });
+            if (option.getAttribute('data-state') === 'available') {
+                postRequest('/add_filter', {column: filter.getAttribute('data-column'), value: option.textContent});
+                option.setAttribute('data-state', 'selected');
+            }
+            else {
+                postRequest('/remove_filter', {column: filter.getAttribute('data-column'), value: option.textContent});
+                option.setAttribute('data-state', 'available');
+            }
         });
     });
 });
-
