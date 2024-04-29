@@ -2,49 +2,68 @@
     font-family: Arial, sans-serif;
     box-sizing: border-box;
 }
+body{
+    background-color: #4e4e4e;
+}
 
 #table{
     width: 100%;
     margin-right: 2%;
-    border-radius: 0;
 }
 table{
+  
+    margin-top: 2%;
     table-layout: fixed;
     width: 100%;
     border-collapse: collapse;
+    border: rgba(0, 0, 0, 0.761);
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+th:first-of-type {
+    border-top-left-radius: 10px;
+  }
+  th:last-of-type {
+    border-top-right-radius: 10px;
+  }
+  tr:last-of-type td:first-of-type {
+    border-bottom-left-radius: 10px;
+  }
+  tr:last-of-type td:last-of-type {
+    border-bottom-right-radius: 10px;
+  }
+
+th {
+    background-color: #10945f;
+    color: #ffffff;
+    text-align: left;
 }
 
 th, td {
-    position: relative;
-    text-align: center;
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+    padding: 1%;
 }
-  
-table, th, td {
-    text-align: center; /* Centers text horizontally */
-    vertical-align: middle; /* Centers text vertically */
+tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
 }
+tbody tr:nth-of-type(odd) {
+    background-color: #dcdcdc;
+}
+
 
 .asc::after, .desc::after{
     position: relative;
     right: 1%;
     top: 50%;
     transform: translateY(-50%);
-    color: #4A4A4A;
+    color: #e6e6e6;
 }
 
-.asc::after{
-    content: '   ▼';
-}
+.asc::after{content: '   ▼';}
+.desc::after{content: '   ▲';}
 
-.desc::after{
-    content: '   ▲';
-}
-
-
-/*Contains Table and Filters*/
+/*Contains Table and UI Column*/
 .content-wrapper {
     display: flex;
     justify-content: space-between;
@@ -52,104 +71,105 @@ table, th, td {
 }
 
 /*Bubble in which all filters exist*/
-.filters{
-    width: 25%;
-    background-color: rgb(246, 246, 246);
+.filters, .distributions{
+    background-color: rgb(240, 240, 240);
     border-radius: 1em;
-    padding-left: 1.5%;
-    padding-right: 1%;
-    align-self: start;
-    padding-bottom: 1%;
+    padding: 1.5%;
 }
-/*Heading of Filters*/
-.filters h2 {
+.distributions{
+    margin-bottom: 1.5em;
+    padding-bottom: 1.5em;
+}
+
+.filters{
+    padding: 3%;
+}
+/*Heading of Filters + Distributions*/
+ h2{
     text-align: center;
-    font-size: 2em; 
-    color: #4A4A4A; 
-    margin-bottom: 1em;
+    font-size: 2.2em; 
+    color: #fffdfd; 
     text-decoration: underline;
 }
 
 /*Input appearance*/
-.filters .filter input {
-    width: 100%;  /* Full width to fit the container */
-    padding: 1em 1em;  /* Comfortable padding */
-    margin: 0.3em 0;  /* Spacing between elements */
-    box-sizing: border-box;  /* Includes padding and border in the element's width */
-    border: 0.1em solid #ccc;  /* Subtle border */
-    border-radius: 1em;  /* Rounded corners */
-    background-color: #fff;  /* White background */
-    font-size: 16px;  /* Readable text size */
-    color: #333;  /* Dark color for text */
+input[type="text"] {
+    width: 100%; 
+    padding: 1em 1em; 
+    margin: 0.3em 0;  
+    border: 0.1em solid #ccc; 
+    border-radius: 1em;  
+    background-color: #fff;  
+    font-size: 1em; 
+    color: #333; 
     flex: 1;
 }
 
 /*Input appearnce when a filter is active*/
-.filters .filter.active input {
-    border: 0.1em solid #4ab63e;  /* Subtle border */
+.filter.active input{
+    border: 0.1em solid #4ab63e;  
 }
 
-.filters .filter input:hover{
+/*Input normal hover*/
+.filter input:hover{
     box-shadow:  0 5px 25px rgba(0, 34, 255, 0.1);  
-
 }
-
-
-.filters .filter .options {
+.options {
     list-style: none;
     margin: 0;
     padding: 0;
-    opacity: 0;  /* Start with hidden content */
-    max-height: 0;  /* Start collapsed */
-    overflow: hidden;  /* Prevents content from showing when height is 0 */
+    opacity: 0;  
+    max-height: 0;  
+    overflow: hidden;  
     background-color: rgb(255, 255, 255);
     box-shadow: 0 0 5px 4px rgba(96, 96, 96, 0.1);
     border-radius: 1em;
     visibility: hidden;
-    z-index: 100;
-    margin-right: 0.8em;
-    transition: opacity 0.5s ease-out, max-height 0.5s ease-out, visibility 0.5s 0s;  /* Transition both properties */
+    z-index: 10;
+    transition: opacity 0.5s ease-out, max-height 0.5s ease-out, visibility 0.5s 0s;  
 }
 
-.filters .filter.opened .options {
-    opacity: 1;  /* Fade in */
-    max-height: var(--max-height);  /* Expand to fit content */
+.filter.opened .options {
+    opacity: 1; 
+    max-height: var(--max-height);  
     visibility: visible;
-    margin-bottom: 5%;
-   
 }
     
-
-.filters .filter .option{
+.option{
     padding: 0.8em;
     cursor: pointer;
     color: #292d34;
     transition: transform 0.2s ease-in-out;
 }
 
-/*Available filters in a list on hover*/
+.option:not(:last-of-type) {
+    border-bottom: 0.01em solid #656565;
+}
+
+/*Available filters on hover*/
 .option[data-state="available"]:hover {
     transform: scale(1.05) translateX(2%);
     transition: all 0.2s ease-in-out;
     background-color: #e3e3e3;
 }
 
+/*Selected filters on hover*/
 .option[data-state="selected"]:hover {
     transform: scale(1.05) translateX(2%);
     transition: all 0.2s ease-in-out;
     text-decoration: line-through;
 }
 
-/*Selected filters in a list*/
-.filters .filter .option[data-state="selected"] {
+/*Selected filters*/
+.option[data-state="selected"] {
     background-color: rgb(77, 229, 141);
 }
 
 .input_box_wrapper{
     position: relative;
-    margin-right: 3%;
 }
 
+/*Charet for drop down filters*/
 .input_box_wrapper::before {
     content: '';
     pointer-events: none;
@@ -164,6 +184,7 @@ table, th, td {
     transition: transform 0.3s ease-in-out;
 }
 
+/*Animate Charet for open list*/
 .filter.opened .input_box_wrapper::before{
     transform: translate(0, -65%) rotate(45deg);
 }
@@ -212,3 +233,131 @@ table, th, td {
 .input_box_wrapper{
     flex:1;
 }
+
+
+
+
+h3{
+    text-align: center;
+    font-size: 1.2em; 
+    color: #4A4A4A; 
+    text-decoration: underline;
+}
+
+
+
+.slider_wrapper{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 7.5%;
+}
+
+.distribution_img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;  /* or 'cover' if you want the image to cover the entire parent */
+    margin-bottom: 3%;
+}
+
+
+
+
+.range-slider {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 1.5em;
+}
+
+
+
+input[type="range"] {
+    -webkit-appearance: none; /* Override default appearance */
+    box-sizing: border-box;
+    appearance: none; /* Standard property for compatibility */
+    width: 100%; /* Full width of the container */
+    position: absolute;
+    pointer-events: none;
+    padding:0;
+    margin:0;
+    font-size: 1em;
+    border-radius: 0;
+    border: none;
+    flex: 1;
+    background: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    background: #000000;
+    width: 1em;
+    height: 1em;
+    border-radius: 0.5em;
+    cursor: pointer;
+    position: relative;
+    pointer-events: auto;
+    z-index: 12;
+}
+
+input[type="range"]:hover {
+    box-shadow: none !important;
+}
+
+.lineMin, .lineMax{
+    position: absolute;
+    width: 20em; 
+    background: linear-gradient(rgba(255, 255, 255, 0), rgba(rgb(213, 213, 213, 1)));
+
+    height: 20em; /* Adjust based on your needs */
+    border-right: 0.25em solid #ff0000; /* Line color */
+    border-left: 0.25em solid #ff0000;
+    bottom:-1em;
+}
+
+.lineMax{
+    transform: translateX(0.375em);
+}
+
+.lineMin{
+    transform: translateX(0.6em);
+}
+
+.inputs{
+    width: 100%;
+    display: flex;
+    position: relative;
+    align-items: left;
+    justify-content: space-between;
+}
+
+
+.inputs input[type="number"] {
+    padding: 2%;
+    text-align: center;
+    border-radius: 0.2em;
+    border: 0.1em solid #161616;
+    font-size: 1em;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.UI {
+    margin: 0;
+    padding: 0;
+    width: 28%;
+    align-self: start;
+}
+
+.distribution{
+    width: 100%;
+    overflow: hidden;
+}
+

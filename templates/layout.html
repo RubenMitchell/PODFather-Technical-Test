@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Include JSZip from a CDN in the <head> or just before the closing </body> tag -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+    
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <title>Data Viewer</title>
 </head>
@@ -9,21 +12,47 @@
         <div id="table">
             {{ table_data|safe }}
         </div>
-        <div class="filters">
-            <h2>Filters</h2>
-            {% for column, entries in unique_entries.items() %}
-            <div class="filter" data-column="{{ column }}">
-                <div class = "input_line_wrapper">
-                    <div class = "input_box_wrapper">
-                        <input type="text" placeholder="{{ column }}s" readonly />
+        <div class="UI">
+            <div class = header_bubble><h2>Filters</h2></div>
+            <div class="filters">
+                {% for column, entries in unique_entries.items() %}
+                <div class="filter" data-column="{{ column }}">
+                    <div class = "input_line_wrapper">
+                        <div class = "input_box_wrapper">
+                            <input type="text" placeholder="{{ column }}s" readonly />
+                        </div>
+                        <div class = "clear_button"></div>
                     </div>
-                    <div class = "clear_button"></div>
+                    <ul class="options">
+                        {% for entry in entries %}
+                        <li class="option" data-state="available">{{ entry }}</li>
+                        {% endfor %}
+                    </ul>
                 </div>
-                <ul class="options">
-                    {% for entry in entries %}
-                    <li class="option" data-state="available">{{ entry }}</li>
-                    {% endfor %}
-                </ul>
+                {% endfor %}
+            </div>
+            <h2>Distributions</h2>
+            {% for column, (min, max) in limits.items() %}
+            <div class="distributions">
+                <div class="dist" data-column="{{ column }}">
+                    <h3>{{ column }}</h3>
+                    <div class="distribution">
+                        <div class="slider_wrapper">
+                            <img id="{{ column }}" class="distribution_img">
+                            <div class="range-slider">
+                                <input type="range" class="sliderMin" min="{{ min }}" max="{{ max }}" value="{{ min }}">
+                                <div class="lineMin"></div>
+                                <input type="range" class="sliderMax" min="{{ min }}" max="{{ max }}" value="{{ max }}">
+                                <div class="lineMax"></div>
+                            </div>
+                            <div class="inputs">
+                                <input type="number" class="inputMin" min="{{ min }}" max="{{ max }}" value="{{ min }}">
+                                <input type="number" class="inputMax" min="{{ min }}" max="{{ max }}" value="{{ max }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
             {% endfor %}
         </div>
