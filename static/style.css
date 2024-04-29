@@ -74,7 +74,7 @@ tbody tr:nth-of-type(odd) {
 .filters, .distributions{
     background-color: rgb(240, 240, 240);
     border-radius: 1em;
-    padding: 1.5%;
+    padding: 1%;
 }
 .distributions{
     margin-bottom: 1.5em;
@@ -256,7 +256,7 @@ h3{
 }
 
 .distribution_img {
-    max-width: 100%;
+    max-width: 95%;
     max-height: 100%;
     object-fit: contain;  /* or 'cover' if you want the image to cover the entire parent */
     margin-bottom: 3%;
