@@ -9,7 +9,7 @@ To run this Flask app, you'll need Python 3.8 or later. Follow these steps to se
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/RubenMitchell/PODFather-Technical-Test.git
-   cd your_project_folder
+   cd PODFather-Technical-Test
 2. **install required packages**
    pip install -r requirements.txt
 3. **Set up a virtual environment (optional but recommended)**:
@@ -18,7 +18,7 @@ To run this Flask app, you'll need Python 3.8 or later. Follow these steps to se
    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 
 Once the setup is complete and you are in your virtual environment, start the Flask application with the following commands.
-'''bash
+```bash
 export FLASK_APP=app.py  # 
 export FLASK_ENV=development
 flask run
